@@ -5,31 +5,31 @@ import java.io.File;
 
 public class PrintFileNamesInDirectory
 {
-    static void RecursivePrint(File[] arr,int index,int level)
+    static int RecursivePrint(File[] arr,int index,int level, int fileNumber)
     {
         // terminate condition
         if(index == arr.length)
-            return;
-
-        // tabs for internal levels
-        for (int i = 0; i < level; i++)
-            System.out.print("\t");
+            return fileNumber;
 
         // for files
-        if(arr[index].isFile())
-            System.out.println(arr[index].getName());
+        if(arr[index].isFile()) {
+            String filename = arr[index].getName();
+            if(!".DS_Store".equals(filename)) {
+                System.out.print(++fileNumber + ": ");
+                System.out.println(filename);
+            }
+        }
 
             // for sub-directories
         else if(arr[index].isDirectory())
         {
-            System.out.println("[" + arr[index].getName() + "]");
-
             // recursion for sub-directories
-            RecursivePrint(arr[index].listFiles(), 0, level + 1);
+            fileNumber = RecursivePrint(arr[index].listFiles(), 0, level + 1, fileNumber);
         }
 
         // recursion for main directory
-        RecursivePrint(arr,++index, level);
+        fileNumber = RecursivePrint(arr,++index, level, fileNumber);
+        return fileNumber;
     }
 
     // Driver Method
@@ -47,13 +47,8 @@ public class PrintFileNamesInDirectory
             // of directory pointed by maindir
             File arr[] = maindir.listFiles();
 
-            System.out.println("**********************************************");
-            System.out.println("Files from main directory : " + maindir);
-            System.out.println("**********************************************");
-
             // Calling recursive method
-            RecursivePrint(arr,0,0);
-            System.out.println("test");
+            RecursivePrint(arr,0,0, 0);
         }
     }
 }
