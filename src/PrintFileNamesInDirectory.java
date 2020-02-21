@@ -7,20 +7,31 @@ public class PrintFileNamesInDirectory
 {
     static int RecursivePrint(File[] arr,int index,int level, int fileNumber)
     {
+        //debugging code
+//        System.out.println("arr: " + arr.toString());
+//        System.out.println("arr.length: " + arr.length);
+//        System.out.println("index: " + index);
+//        System.out.println("level: " + level);
+//        System.out.println("fileNumber: " + fileNumber);
+
+
         // terminate condition
         if(index == arr.length)
             return fileNumber;
 
+        //ignore directories starting with .
+        String filename = arr[index].getName();
+        if(filename.charAt(0)=='.'){
+            //do nothing
+        }
         // for files
-        if(arr[index].isFile()) {
-            String filename = arr[index].getName();
+        else if(arr[index].isFile()) {
             if(!".DS_Store".equals(filename)) {
                 System.out.print(++fileNumber + ": ");
                 System.out.println(filename);
             }
         }
-
-            // for sub-directories
+        // for sub-directories
         else if(arr[index].isDirectory())
         {
             // recursion for sub-directories
@@ -36,7 +47,8 @@ public class PrintFileNamesInDirectory
     public static void main(String[] args)
     {
         // Provide full path for directory(change accordingly)
-        String maindirpath = "/Volumes/TranscendCard/SP_all_lectures_in_order";
+        String maindirpath = "/Volumes/STRONTIUM64";
+//        String maindirpath = "/Volumes/TranscendCard/SP_all_lectures_in_order";
 
         // File object
         File maindir = new File(maindirpath);
